@@ -1,0 +1,21 @@
+Count ArticleType
+609 Jeans
+614 Perfume and Body Mist
+637 Formal Shoes
+686 Socks
+724 Backpacks
+813 Belts
+849 Briefs
+897 Sandals
+916 Flip Flops
+936 Wallets
+1073 Sunglasses
+1323 Heels
+1759 Handbags
+1762 Tops
+1844 Kurtas
+2036 Sports Shoes
+2542 Watches
+2846 Casual Shoes
+3217 Shirts
+7070 Tshirts
