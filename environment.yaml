@@ -1,0 +1,14 @@
+name: meta
+channels:
+  - pytorch
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - pandas
+  - pytorch=1.2.0
+  - torchvision=0.4.0
+  - cudatoolkit=9.2
+  - numpy
+  - tensorboard
+  - tqdm
