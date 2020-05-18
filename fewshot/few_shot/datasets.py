@@ -118,10 +118,10 @@ class MiniImageNet(Dataset):
         self.datasetid_to_filepath = self.df.to_dict()['filepath']
         self.datasetid_to_class_id = self.df.to_dict()['class_id']
 
-        # Setup transforms
+        # Setup transforms for resnet50
         self.transform = transforms.Compose([
+            transforms.Scale(256),
             transforms.CenterCrop(224),
-            transforms.Resize(84),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
@@ -177,12 +177,14 @@ class MiniImageNet(Dataset):
 
 
 class FashionSmallDataset(Dataset):
+    folder='fashion_small'
     def __init__(self, subset):
-        super().__init__(subset, folder='fashion_small')
+        super().__init__(subset)
 
 
 class FashionDataset(Dataset):
-    def __init__(self, subset, folder='fashion'):
+    folder='fashion'
+    def __init__(self, subset):
         """Dataset class representing Fashion dataset
 
         # Arguments:
@@ -191,8 +193,6 @@ class FashionDataset(Dataset):
         if subset not in ('background', 'evaluation'):
             raise(ValueError, 'subset must be one of (background, evaluation)')
         self.subset = subset
-
-        self.folder = folder
 
         self.df = pd.DataFrame(self.index_subset(self.subset))
 
@@ -210,8 +210,8 @@ class FashionDataset(Dataset):
 
         # Setup transforms
         self.transform = transforms.Compose([
+            transforms.Scale(256),
             transforms.CenterCrop(224),
-            transforms.Resize(84),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
@@ -244,11 +244,11 @@ class FashionDataset(Dataset):
         print('Indexing {}...'.format(subset))
         # Quick first pass to find total for tqdm bar
         subset_len = 0
-        for root, folders, files in os.walk(DATA_PATH + '/{}/images_{}/'.format(self.folder, subset)):
+        for root, folders, files in os.walk(DATA_PATH + '/{}/images_{}/'.format(FashionDataset.folder, subset)):
             subset_len += len([f for f in files if f.endswith('.png')])
 
         progress_bar = tqdm(total=subset_len)
-        for root, folders, files in os.walk(DATA_PATH + '/{}/images_{}/'.format(self.folder, subset)):
+        for root, folders, files in os.walk(DATA_PATH + '/{}/images_{}/'.format(FashionDataset.folder, subset)):
             if len(files) == 0:
                 continue
 

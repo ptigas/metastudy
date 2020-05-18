@@ -43,6 +43,7 @@ def proto_net_episode(model: Module,
 
     # Embed all samples
     embeddings = model(x)
+    #import pdb; pdb.set_trace()
 
     # Samples are ordered by the NShotWrapper class as follows:
     # k lots of n support samples from a particular class

@@ -2,6 +2,7 @@ from torch import nn
 import numpy as np
 import torch.nn.functional as F
 import torch
+import torchvision
 from typing import Dict
 
 
@@ -89,6 +90,47 @@ def get_few_shot_encoder(num_input_channels=1) -> nn.Module:
         conv_block(64, 64),
         Flatten(),
     )
+
+
+def get_few_shot_resnet_encoder() -> nn.Module:
+    """Creates a few shot Resnet50 based encoder as used in Matching and Prototypical Networks
+    """
+    print('Creating resnet encoder...')
+    resnet = torchvision.models.resnet50(pretrained=True)
+    modules = list(resnet.children())[:-1]
+    for p in resnet.parameters():
+        p.requires_grad = False
+
+    modules.append(Flatten())
+    modules.append(nn.Linear(2048, 64*64))
+
+    return nn.Sequential(*modules)
+
+
+class ResnetFewShotClassfier(nn.Module):
+    def __init__(self, k_way: int):
+        super(ResnetFewShotClassfier, self).__init__()
+        resnet = torchvision.models.resnet50(pretrained=True, progress=True, **kwargs)
+        modules = list(resnet.children())[:-1]
+        self.basemodel = nn.Sequential(*modules)
+        for p in self.basemodel.parameters():
+            p.requires_grad = False
+
+        import pdb; pdb.set_trace()
+        self.logits = nn.Linear(final_layer_size, k_way)
+
+    def forward(self, x):
+        return self.basemodel(x)
+        x = self.conv2(x)
+        x = self.conv3(x)
+        x = self.conv4(x)
+
+        x = x.view(x.size(0), -1)
+
+        return self.logits(x)
+
+    def functional_forward(self, x, weights):
+        assert False, 'Not Implemented. Sorry MAML :('
 
 
 class FewShotClassifier(nn.Module):

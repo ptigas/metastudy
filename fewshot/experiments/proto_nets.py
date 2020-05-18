@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 import argparse
 
 from few_shot.datasets import OmniglotDataset, MiniImageNet, FashionDataset, FashionSmallDataset
-from few_shot.models import get_few_shot_encoder
+from few_shot.models import get_few_shot_encoder, get_few_shot_resnet_encoder
 from few_shot.core import NShotTaskSampler, EvaluateFewShot, prepare_nshot_task
 from few_shot.proto import proto_net_episode
 from few_shot.train import fit
@@ -86,7 +86,7 @@ evaluation_taskloader = DataLoader(
 #########
 # Model #
 #########
-model = get_few_shot_encoder(num_input_channels)
+model = get_few_shot_resnet_encoder()
 model.to(device, dtype=torch.double)
 
 
