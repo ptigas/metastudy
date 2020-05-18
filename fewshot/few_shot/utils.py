@@ -12,10 +12,7 @@ def mkdir(dir):
     # Arguments:
         dir: Path of directory to create
     """
-    try:
-        os.mkdir(dir)
-    except:
-        pass
+    os.makedirs(dir, exist_ok=True)
 
 
 def rmdir(dir):

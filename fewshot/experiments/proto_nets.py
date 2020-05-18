@@ -5,7 +5,7 @@ from torch.optim import Adam
 from torch.utils.data import DataLoader
 import argparse
 
-from few_shot.datasets import OmniglotDataset, MiniImageNet
+from few_shot.datasets import OmniglotDataset, MiniImageNet, FashionDataset, FashionSmallDataset
 from few_shot.models import get_few_shot_encoder
 from few_shot.core import NShotTaskSampler, EvaluateFewShot, prepare_nshot_task
 from few_shot.proto import proto_net_episode
@@ -29,7 +29,7 @@ parser.add_argument('--dataset')
 parser.add_argument('--distance', default='l2')
 parser.add_argument('--n-train', default=1, type=int)
 parser.add_argument('--n-test', default=1, type=int)
-parser.add_argument('--k-train', default=60, type=int)
+parser.add_argument('--k-train', default=5, type=int)
 parser.add_argument('--k-test', default=5, type=int)
 parser.add_argument('--q-train', default=5, type=int)
 parser.add_argument('--q-test', default=1, type=int)
@@ -43,6 +43,16 @@ if args.dataset == 'omniglot':
     dataset_class = OmniglotDataset
     num_input_channels = 1
     drop_lr_every = 20
+elif args.dataset == 'fashion':
+    n_epochs = 80
+    dataset_class = FashionDataset
+    num_input_channels = 3
+    drop_lr_every = 40
+elif args.dataset == 'fashion_small':
+    n_epochs = 80
+    dataset_class = FashionSmallDataset
+    num_input_channels = 3
+    drop_lr_every = 40
 elif args.dataset == 'miniImageNet':
     n_epochs = 80
     dataset_class = MiniImageNet

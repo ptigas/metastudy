@@ -45,6 +45,16 @@ if args.dataset == 'omniglot':
     dataset_class = OmniglotDataset
     fc_layer_size = 64
     num_input_channels = 1
+elif args.dataset == 'fashion':
+    n_epochs = 80
+    dataset_class = FashionDataset
+    num_input_channels = 3
+    drop_lr_every = 40
+elif args.dataset == 'fashion_small':
+    n_epochs = 80
+    dataset_class = FashionSmallDataset
+    num_input_channels = 3
+    drop_lr_every = 40
 elif args.dataset == 'miniImageNet':
     dataset_class = MiniImageNet
     fc_layer_size = 1600
