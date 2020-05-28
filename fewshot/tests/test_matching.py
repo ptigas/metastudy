@@ -10,55 +10,49 @@ from few_shot.utils import pairwise_distances
 
 
 class TestMatchingNets(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.dataset = DummyDataset(samples_per_class=1000, n_classes=20)
 
-    def _test_n_k_q_combination(self, n, k, q):
-        n_shot_taskloader = DataLoader(self.dataset,
-                                       batch_sampler=NShotTaskSampler(self.dataset, 100, n, k, q))
+  @classmethod
+  def setUpClass(cls):
+    cls.dataset = DummyDataset(samples_per_class=1000, n_classes=20)
 
-        # Load a single n-shot, k-way task
-        for batch in n_shot_taskloader:
-            x, y = batch
-            break
+  def _test_n_k_q_combination(self, n, k, q):
+    n_shot_taskloader = DataLoader(self.dataset,
+                                   batch_sampler=NShotTaskSampler(
+                                       self.dataset, 100, n, k, q))
 
-        # Take just dummy label features and a little bit of noise
-        # So distances are never 0
-        support = x[:n * k, 1:]
-        queries = x[n * k:, 1:]
-        support += torch.rand_like(support)
-        queries += torch.rand_like(queries)
+    # Load a single n-shot, k-way task
+    for batch in n_shot_taskloader:
+      x, y = batch
+      break
 
-        distances = pairwise_distances(queries, support, 'cosine')
+    # Take just dummy label features and a little bit of noise
+    # So distances are never 0
+    support = x[:n * k, 1:]
+    queries = x[n * k:, 1:]
+    support += torch.rand_like(support)
+    queries += torch.rand_like(queries)
 
-        # Calculate "attention" as softmax over distances
-        attention = (-distances).softmax(dim=1).cuda()
+    distances = pairwise_distances(queries, support, 'cosine')
 
-        y_pred = matching_net_predictions(attention, n, k, q)
+    # Calculate "attention" as softmax over distances
+    attention = (-distances).softmax(dim=1).cuda()
 
-        self.assertEqual(
-            y_pred.shape,
-            (q * k, k),
-            'Matching Network predictions must have shape (q * k, k).'
-        )
+    y_pred = matching_net_predictions(attention, n, k, q)
 
-        y_pred_sum = y_pred.sum(dim=1)
-        self.assertTrue(
-            torch.all(
-                torch.isclose(y_pred_sum, torch.ones_like(y_pred_sum).double())
-            ),
-            'Matching Network predictions probabilities must sum to 1 for each '
-            'query sample.'
-        )
+    self.assertEqual(
+        y_pred.shape, (q * k, k),
+        'Matching Network predictions must have shape (q * k, k).')
 
-    def test_matching_net_predictions(self):
-        test_combinations = [
-            (1, 5, 5),
-            (5, 5, 5),
-            (1, 20, 5),
-            (5, 20, 5)
-        ]
+    y_pred_sum = y_pred.sum(dim=1)
+    self.assertTrue(
+        torch.all(
+            torch.isclose(y_pred_sum,
+                          torch.ones_like(y_pred_sum).double())),
+        'Matching Network predictions probabilities must sum to 1 for each '
+        'query sample.')
 
-        for n, k, q in test_combinations:
-            self._test_n_k_q_combination(n, k, q)
+  def test_matching_net_predictions(self):
+    test_combinations = [(1, 5, 5), (5, 5, 5), (1, 20, 5), (5, 20, 5)]
+
+    for n, k, q in test_combinations:
+      self._test_n_k_q_combination(n, k, q)

@@ -39,15 +39,15 @@ Travel Accessory\
 ".split(',')))
 
 # Clean up folders
-rmdir(DATA_PATH + '/fashion/images_background')
-rmdir(DATA_PATH + '/fashion/images_evaluation')
+rmdir(DATA_PATH + '/fashion_small/images_background')
+rmdir(DATA_PATH + '/fashion_small/images_evaluation')
 
 # Create class folders
 for c in background_classes:
-  mkdir(DATA_PATH + f'/fashion/images_background/{c}/')
+  mkdir(DATA_PATH + f'/fashion_small/images_background/{c}/')
 
 for c in evaluation_classes:
-  mkdir(DATA_PATH + f'/fashion/images_evaluation/{c}/')
+  mkdir(DATA_PATH + f'/fashion_small/images_evaluation/{c}/')
 
 root = path_to_fashion + '/images'
 with open(path_to_fashion + '/styles.csv') as f:
@@ -55,6 +55,7 @@ with open(path_to_fashion + '/styles.csv') as f:
     line = line.split(',')
     class_name = line[4]
     if class_name in evaluation_classes:
+
       subset_folder = 'images_evaluation'
     elif class_name in background_classes:
       subset_folder = 'images_background'
@@ -67,7 +68,7 @@ with open(path_to_fashion + '/styles.csv') as f:
     #print(_id, subset_folder)
     try:
       src = f'{root}/{_id}.jpg'
-      dst = DATA_PATH + f'/fashion/{subset_folder}/{class_name}/{image_name}'
+      dst = DATA_PATH + f'/fashion_small/{subset_folder}/{class_name}/{image_name}'
       shutil.copy(src, dst)
     except Exception as e:
       print(e)
