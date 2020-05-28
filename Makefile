@@ -9,4 +9,4 @@ format:
 	docformatter --in-place --recursive .
 
 test:
-	pytest meta
+	cd fewshot && pytest
