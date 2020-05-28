@@ -216,9 +216,6 @@ class FashionDataset(Dataset):
     # Index of dataframe has direct correspondence to item in dataset
     self.df = self.df.assign(id=self.df.index.values)
 
-    import pdb
-    pdb.set_trace()
-
     # Convert arbitrary class names of dataset to ordered 0-(num_speakers - 1) integers
     self.unique_characters = sorted(self.df['class_name'].unique())
     self.class_name_to_id = {

@@ -5,8 +5,10 @@ from torch.utils.data import DataLoader
 from few_shot.core import NShotTaskSampler
 from few_shot.datasets import DummyDataset
 from few_shot.datasets import MiniImageNet
+from few_shot.datasets import FashionDataset
 from few_shot.datasets import OmniglotDataset
 from few_shot.models import get_few_shot_encoder
+from few_shot.models import get_few_shot_resnet_encoder
 from few_shot.proto import compute_prototypes
 
 
@@ -55,8 +57,15 @@ class TestProtoNets(unittest.TestCase):
     )
 
     encoder = get_few_shot_encoder(num_input_channels=3).float()
-    omniglot = MiniImageNet('background')
+    miniimagenet = MiniImageNet('background')
     self.assertEqual(
-        encoder(omniglot[0][0].unsqueeze(0).float()).shape[1], 1600,
+        encoder(miniimagenet[0][0].unsqueeze(0).float()).shape[1], 1600,
         'Encoder network should produce 1600 dimensional embeddings on miniImageNet dataset.'
+    )
+
+    encoder = get_few_shot_resnet_encoder().float()
+    fashion = FashionDataset('background')
+    self.assertEqual(
+        encoder(fashion[0][0].unsqueeze(0).float()).shape[1], 512,
+        'Encoder network should produce 512 dimensional embeddings on Fashion dataset.'
     )
