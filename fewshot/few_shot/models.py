@@ -102,7 +102,7 @@ def get_few_shot_resnet_encoder() -> nn.Module:
         p.requires_grad = False
 
     modules.append(Flatten())
-    modules.append(nn.Linear(2048, 64*64))
+    modules.append(nn.Linear(2048, 512))
 
     return nn.Sequential(*modules)
 
