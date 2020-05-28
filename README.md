@@ -6,6 +6,8 @@ This study depends on [oscarknagg/few-shot](https://github.com/oscarknagg/few-sh
 
 ## Few shot experiments
 
+![The Fashion dataset[^0] consisting of 44k fashion products.](fashion.png)
+
 For the fashion dataset, download from [Kaggle](https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset/version/1) the dataset and use `fewshot\scripts\prepare_fashion.py [fashion dataset folder]` to prepare the examples for the few shot experiments.
 
 
