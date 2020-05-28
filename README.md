@@ -1,12 +1,12 @@
 Metastudy
 ===
 
-This study depends on https://github.com/oscarknagg/few-shot/tree/master/few_shot which has been cloned in https://github.com/ptigas/metastudy/tree/master/fewshot. Read https://github.com/ptigas/metastudy/blob/master/fewshot/README.md for installation instructions.
+This study depends on [oscarknagg/few-shot](https://github.com/oscarknagg/few-shot/tree/master/few_shot) which has been cloned in [/fewshot](https://github.com/ptigas/metastudy/tree/master/fewshot). Read [README](https://github.com/ptigas/metastudy/blob/master/fewshot/README.md) for installation instructions.
 
 
 ## Few shot experiments
 
-For the fashion dataset, download from https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset/version/1 the dataset and use `fewshot\scripts\prepare_fashion.py [fashion dataset folder]` to prepare the examples for the few shot experiments.
+For the fashion dataset, download from [Kaggle](https://www.kaggle.com/paramaggarwal/fashion-product-images-dataset/version/1) the dataset and use `fewshot\scripts\prepare_fashion.py [fashion dataset folder]` to prepare the examples for the few shot experiments.
 
 
 ### Resnet50
