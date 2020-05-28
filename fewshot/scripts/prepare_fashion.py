@@ -48,7 +48,6 @@ with open(path_to_fashion + '/styles.csv') as f:
         line = line.split(',')
         class_name = line[4]
         if class_name in evaluation_classes:
-
             subset_folder = 'images_evaluation'
         elif class_name in background_classes:
             subset_folder = 'images_background'
